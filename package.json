@@ -1,0 +1,43 @@
+{
+  "name": "awork",
+  "version": "1.0.0",
+  "description": "Deal with Web Workers in usual async way",
+  "main": "dist/awork.js",
+  "module": "dist/awork.js",
+  "scripts": {
+    "build": "babel ./src/index.js -o ./dist/awork.js",
+    "prepublish": "npm run build",
+    "test": "./node_modules/karma/bin/karma start",
+    "release": "np"
+  },
+  "keywords": [
+    "webworker",
+    "worker",
+    "web worker"
+  ],
+  "author": "Ivan Dmitriev",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "6.24.0",
+    "babel-plugin-transform-decorators-legacy": "1.3.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.24.0",
+    "babel-preset-env": "1.1.8",
+    "babelify": "7.3.0",
+    "browserify": "14.1.0",
+    "chai": "3.5.0",
+    "chai-as-promised": "6.0.0",
+    "karma": "1.5.0",
+    "karma-babel-preprocessor": "6.0.1",
+    "karma-browserify": "5.1.1",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-firefox-launcher": "1.0.1",
+    "karma-ie-launcher": "1.0.0",
+    "karma-mocha": "1.3.0",
+    "karma-opera-launcher": "1.0.0",
+    "karma-safari-launcher": "1.0.0",
+    "mocha": "3.2.0",
+    "np": "2.13.1",
+    "watchify": "3.9.0"
+  },
+  "dependencies": {}
+}
