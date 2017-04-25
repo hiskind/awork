@@ -34,22 +34,25 @@ function makeBlob () {
 }
 
 
-function create(fn) {
+function create(fn, options={keepAlive: true}) {
     let blob = wrap(fn)
+    let worker = new Worker(URL.createObjectURL(blob))
 
     return function() {
-        let worker = new Worker(URL.createObjectURL(blob))
+        if (!worker) {
+            worker = new Worker(URL.createObjectURL(blob))
+        }
         let result = new Promise((resolve, reject) => {
             worker.onmessage = function(e) {
                 let message = e.data
-                if (message.error) {
+                if (!options.keepAlive) {
                     worker.terminate()
                     worker = undefined
+                }
+                if (message.error) {
                     reject(message.error)
                 }
                 resolve(message.data)
-                worker.terminate()
-                worker = undefined
             }
         })
         worker.postMessage(Array.prototype.slice.call(arguments, 0))
@@ -60,14 +63,14 @@ function create(fn) {
 
 function awork() {
     if(typeof arguments[0] === 'function') {
-        return create(arguments[0])
+        return create(arguments[0], arguments[1])
     }
 
     return function (target, key, descriptor) {
-        let wrapper = create(descriptor.value)
+        let wrapper = create(descriptor.value, arguments[0])
         descriptor.value = wrapper
         return descriptor
     }
 }
 
-export {a as awork};
+export default awork
