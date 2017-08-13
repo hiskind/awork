@@ -1,6 +1,17 @@
 ## Awork
-Awork is an experimental library meant to simplify Web Workers usage.
-Just wrap or decorate any heavy method you want to run in a separate process and work with it in a usual async way.
+
+### The simplest way to execute code in Web Worker process
+
+Awork is a small experimental library meant to simplify Web Workers usage in some cases.
+Just wrap or decorate your function with `awork` and continue using it in a usual async way.
+However, be aware of some limitations:
+
+
+### Limitations
+ - **Only pure functions without side effects and external dependencies can be wrapped at the moment. All necessary data should be passed to this function via arguments.**
+ - **The function should return computed value, which then will be used to fulfill the promise.**
+ - **Polyfilled functions will not work correctly inside the web worker due to external dependencies, for example, Promise polyfill will refer to variables outside the function scope, like _es6Promise (es6-promise) or _promise2 (babel-polyfill). That's why you can't use Promises or other polyfilled features inside the target function.**
+ - **If you are using awork to decorate some class method, please remember that `this` inside your function will not refer to the class instance as expected.**
 
 ### Installation
 
@@ -10,18 +21,16 @@ Via npm:
 $ npm install awork --save
 ```
 
-### Basic Example:
+### Basic examples:
 
 As a decorator:
 
 ```javascript
-const awork = require('awork').default
-// Or for ES2015 modules:
-import awork
+import awork from 'awork'
 
-class Fibonacci {
+class ClassWithFibonacciNumbers {
     @awork()
-    calc(num) {
+    getFibonacciNumber(num) {
         let a = 1, b = 0, tmp
         while (num > 0){
             tmp = a
@@ -33,8 +42,8 @@ class Fibonacci {
     }
 }
 
-let fib = new Fibonacci()
-fib.calc(100)
+let instance = new ClassWithFibonacciNumbers()
+instance.getFibonacciNumber(100)
     .then((res) => console.log('100th number:', res))
     .catch((err) => console.error(err))
 
@@ -42,6 +51,60 @@ fib.calc(100)
 
 As a wrapper:
 
+```javascript
+import awork from 'awork'
+
+function inefficientFibonacci(num) {
+    let a = 1, b = 0, tmp = null
+    while (num > 0){
+        tmp = a
+        a = a + b
+        b = tmp
+        num--
+    }
+    return b
+}
+
+let fib = awork(inefficientFibonacci)
+Promise.all(
+    [...Array(100)].map((v, i) => fib(i))
+)
+    .then(num => print(`First 100 Fibonacci numbers:`, num.join(', ')))
+    .catch(error => console.error(error))
+
+```
 
 ## Error handling
-Any thrown errors from the worker will be propagated as a rejected Promise.
+All errors from web worker will propagate back to the main process and lead to Promise rejection:
+
+```javascript
+const awork = require('awork')
+
+function parseJSON(str) {
+    return JSON.parse(str)
+}
+
+awork(parseJSON)('{not even close to valid JSON}')
+    .then(() => console.log('Surprise'))
+    .catch((err) => console.log('Well, it was expected:', err))
+```
+
+## Options
+
+Creating a new web worker every call is quite expensive, that's why awork keeps and reuses the same instance by default. But if you are going to call your function only once or twice - you can notify awork that there is no need to keep this web worker instance alive. To do this, pass `{keepAlive: false}` to awork:
+
+```javascript
+//Config decorator
+@awork({keepAlive: false})
+fn (args) {
+    // ...
+}
+
+//Config wrapper
+let afn = awork(fn, {keepAlive: false})
+```
+
+## Examples
+To run examples locally, use:
+ 1. Run `yarn run build:examples && yarn run start:examples`
+ 2. Open http://127.0.0.1:8080 to explore examples folder.

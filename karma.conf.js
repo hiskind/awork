@@ -1,6 +1,3 @@
-// Karma configuration
-// Generated on Sat Apr 01 2017 12:41:09 GMT+0400 (SAMT)
-
 module.exports = function(config) {
   config.set({
     basePath: '',
@@ -26,7 +23,7 @@ module.exports = function(config) {
                         ["transform-es2015-modules-commonjs", {"loose": true}],
                     ]
                 })
-            });
+            })
         }
     },
     reporters: ['progress'],

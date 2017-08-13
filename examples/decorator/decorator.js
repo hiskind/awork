@@ -1,9 +1,17 @@
-import awork from '../../../build/awork.js'
+import awork from '../../../dist/awork.js'
 
-class Fibonacci {
+function print(...args) {
+    let element = document.createTextNode(args.join(" "))
+    let p = document.createElement('P')
+    p.setAttribute('style', 'width: 50%')
+    p.append(element)
+    document.getElementsByTagName('body')[0].append(p)
+}
+
+class InefficientFibonacci {
     @awork()
-    calc(num) {
-        let a = 1, b = 0, tmp
+    getNumber(num) {
+        let a = 1, b = 0, tmp = 0
         while (num > 0){
             tmp = a
             a = a + b
@@ -14,7 +22,7 @@ class Fibonacci {
     }
 }
 
-let fib = new Fibonacci()
-fib.calc(100)
-    .then((res) => console.log('100th number:', res))
+let fib = new InefficientFibonacci()
+fib.getNumber(100)
+    .then((res) => print('100th Fibonacci number:', res))
     .catch((err) => console.error(err))
