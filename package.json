@@ -1,6 +1,6 @@
 {
   "name": "awork",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Deal with Web Workers in usual async way",
   "main": "dist/awork.js",
   "module": "dist/awork.js",
