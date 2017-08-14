@@ -1,4 +1,3 @@
-import {Promise} from 'es6-promise'
 import awork from '../src/awork.js'
 import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
