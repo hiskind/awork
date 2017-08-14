@@ -1,1 +1,5 @@
 src
+examples
+test
+karma.conf.js
+.eslintrc.yml
