@@ -10,8 +10,8 @@ However, be aware of some limitations:
 ### Limitations
  - **Only pure functions without side effects and external dependencies can be wrapped at the moment. All necessary data should be passed to this function via arguments.**
  - **The function should return computed value, which then will be used to fulfill the promise.**
- - **Polyfilled functions will not work correctly inside the web worker due to external dependencies, for example, Promise polyfill will refer to variables outside the function scope, like _es6Promise (es6-promise) or _promise2 (babel-polyfill). That's why you can't use Promises or other polyfilled features inside the target function.**
- - **If you are using awork to decorate some class method, please remember that `this` inside your function will not refer to the class instance as expected.**
+ - **Polyfilled features will not work correctly inside a web worker process due to external dependencies. For example, Promise polyfills will refer to variables outside the function scope, like _es6Promise (es6-promise) or _promise2 (babel-polyfill).**
+ - **If you are using awork as a decorator for a class method, remember that `this` inside the method doesn't refer to the class instance.**
 
 ### Installation
 
