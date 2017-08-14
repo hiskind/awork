@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/idmitme/awork.svg?branch=master)](https://travis-ci.org/idmitme/awork)
 
-### The simplest way to execute code in Web Worker process
+### The simplest way to execute code in a separate Web Worker process
 
 Awork is a small experimental library meant to simplify Web Workers usage in some cases.
 Just wrap or decorate your function with `awork` and continue using it in a usual async way.
