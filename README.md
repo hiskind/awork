@@ -4,7 +4,7 @@
 
 ### The simplest way to execute code in a separate Web Worker process
 
-Awork is a small experimental library meant to simplify Web Workers usage in some cases.
+Awork is a small library meant to simplify Web Workers usage in some cases.
 Just wrap or decorate your function with `awork` and continue using it in a usual async way.
 However, be aware of some limitations:
 
