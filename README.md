@@ -110,3 +110,7 @@ let afn = awork(fn, {keepAlive: false})
 To run examples locally, use:
  1. Run `yarn run build:examples && yarn run start:examples`
  2. Open http://127.0.0.1:8080 to explore examples folder.
+ 
+## License
+
+[MIT License](https://oss.ninja/mit/developit)
